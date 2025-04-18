@@ -11,64 +11,100 @@
       max-width: 600px;
       margin: auto;
     }
-    textarea {
+    textarea, input {
       width: 100%;
-      height: 150px;
-      margin-bottom: 1rem;
-    }
-    input, select {
-      width: 100%;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       padding: 0.5rem;
     }
+    .field-group {
+      margin-bottom: 1.5rem;
+    }
     button {
-      padding: 1rem;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .copy-btn {
+      background-color: #1976D2;
+      color: white;
+      border: none;
+    }
+    .main-btn {
+      display: block;
       width: 100%;
       background-color: #4CAF50;
       color: white;
-      border: none;
+      padding: 1rem;
       font-size: 1rem;
+      border: none;
+      margin-top: 1rem;
     }
     .info {
       margin-top: 1rem;
       color: gray;
       font-size: 0.9rem;
     }
+    .version {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
   </style>
 </head>
 <body>
   <h1>Anzeige vorbereiten</h1>
 
-  <label for="title">Titel</label>
-  <input id="title" value="GTM Mountainbike 26 Zoll – gut erhalten">
+  <div class="field-group">
+    <label for="title">Titel</label>
+    <div style="display: flex; align-items: center;">
+      <input id="title" value="GTM Mountainbike 26 Zoll – gut erhalten">
+      <button class="copy-btn" onclick="copyField('title')">Kopieren</button>
+    </div>
+  </div>
 
-  <label for="price">Preis</label>
-  <input id="price" value="120 € VB">
+  <div class="field-group">
+    <label for="price">Preis</label>
+    <div style="display: flex; align-items: center;">
+      <input id="price" value="120 € VB">
+      <button class="copy-btn" onclick="copyField('price')">Kopieren</button>
+    </div>
+  </div>
 
-  <label for="description">Beschreibung</label>
-  <textarea id="description">Ich verkaufe mein gut erhaltenes GTM Mountainbike mit 26-Zoll-Rädern. Das Fahrrad verfügt über eine Kettenschaltung, eine Federgabel vorne sowie eine stabile Rahmenkonstruktion aus Aluminium. Es ist voll funktionsfähig, die Bremsen und Schaltung arbeiten einwandfrei. Optisch hat es normale Gebrauchsspuren, technisch ist es sofort einsatzbereit. Perfekt für Stadt und Gelände. Probefahrt gerne möglich!</textarea>
+  <div class="field-group">
+    <label for="description">Beschreibung</label>
+    <div style="display: flex; align-items: center;">
+      <textarea id="description">Ich verkaufe mein gut erhaltenes GTM Mountainbike mit 26-Zoll-Rädern. Das Fahrrad verfügt über eine Kettenschaltung, eine Federgabel vorne sowie eine stabile Rahmenkonstruktion aus Aluminium. Es ist voll funktionsfähig, die Bremsen und Schaltung arbeiten einwandfrei. Optisch hat es normale Gebrauchsspuren, technisch ist es sofort einsatzbereit. Perfekt für Stadt und Gelände. Probefahrt gerne möglich!</textarea>
+      <button class="copy-btn" onclick="copyField('description')">Kopieren</button>
+    </div>
+  </div>
 
-  <label for="category">Kategorie</label>
-  <input id="category" value="Sport > Fahrräder & Zubehör > Herrenfahrräder / Mountainbikes" readonly>
+  <div class="field-group">
+    <label for="category">Kategorie</label>
+    <div style="display: flex; align-items: center;">
+      <input id="category" value="Sport > Fahrräder & Zubehör > Herrenfahrräder / Mountainbikes" readonly>
+      <button class="copy-btn" onclick="copyField('category')">Kopieren</button>
+    </div>
+  </div>
 
-  <button onclick="copyAndOpen()">Jetzt bei Kleinanzeigen einstellen</button>
-
+  <button class="main-btn" onclick="openKleinanzeigen()">Jetzt bei Kleinanzeigen einstellen</button>
   <div class="info" id="info"></div>
 
-  <script>
-    async function copyAndOpen() {
-      const title = document.getElementById('title').value;
-      const price = document.getElementById('price').value;
-      const description = document.getElementById('description').value;
-      const text = `Titel: ${title}\nPreis: ${price}\nBeschreibung: ${description}`;
+  <div class="version">Version 1 – Stand: 18.04.2025, 16:35</div>
 
-      try {
-        await navigator.clipboard.writeText(text);
-        document.getElementById('info').innerText = 'Inhalte kopiert! Jetzt wirst du weitergeleitet …';
-        window.open('https://www.kleinanzeigen.de/p-anzeige-aufgeben.html', '_blank');
-      } catch (err) {
-        document.getElementById('info').innerText = 'Fehler beim Kopieren in die Zwischenablage.';
-      }
+  <script>
+    function copyField(id) {
+      const text = document.getElementById(id).value || document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        document.getElementById('info').innerText = `"${text.substring(0, 30)}..." wurde kopiert.`;
+      }, () => {
+        document.getElementById('info').innerText = 'Kopieren fehlgeschlagen.';
+      });
+    }
+
+    function openKleinanzeigen() {
+      window.open('https://www.kleinanzeigen.de/p-anzeige-aufgeben.html', '_blank');
     }
   </script>
 </body>
