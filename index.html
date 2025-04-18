@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kleinanzeigen Assistent</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 1rem;
+    }
+    input, select {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+    }
+    button {
+      padding: 1rem;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-size: 1rem;
+    }
+    .info {
+      margin-top: 1rem;
+      color: gray;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Anzeige vorbereiten</h1>
+
+  <label for="title">Titel</label>
+  <input id="title" value="GTM Mountainbike 26 Zoll – gut erhalten">
+
+  <label for="price">Preis</label>
+  <input id="price" value="120 € VB">
+
+  <label for="description">Beschreibung</label>
+  <textarea id="description">Ich verkaufe mein gut erhaltenes GTM Mountainbike mit 26-Zoll-Rädern. Das Fahrrad verfügt über eine Kettenschaltung, eine Federgabel vorne sowie eine stabile Rahmenkonstruktion aus Aluminium. Es ist voll funktionsfähig, die Bremsen und Schaltung arbeiten einwandfrei. Optisch hat es normale Gebrauchsspuren, technisch ist es sofort einsatzbereit. Perfekt für Stadt und Gelände. Probefahrt gerne möglich!</textarea>
+
+  <label for="category">Kategorie</label>
+  <input id="category" value="Sport > Fahrräder & Zubehör > Herrenfahrräder / Mountainbikes" readonly>
+
+  <button onclick="copyAndOpen()">Jetzt bei Kleinanzeigen einstellen</button>
+
+  <div class="info" id="info"></div>
+
+  <script>
+    async function copyAndOpen() {
+      const title = document.getElementById('title').value;
+      const price = document.getElementById('price').value;
+      const description = document.getElementById('description').value;
+      const text = `Titel: ${title}\nPreis: ${price}\nBeschreibung: ${description}`;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        document.getElementById('info').innerText = 'Inhalte kopiert! Jetzt wirst du weitergeleitet …';
+        window.open('https://www.kleinanzeigen.de/p-anzeige-aufgeben.html', '_blank');
+      } catch (err) {
+        document.getElementById('info').innerText = 'Fehler beim Kopieren in die Zwischenablage.';
+      }
+    }
+  </script>
+</body>
+</html>
